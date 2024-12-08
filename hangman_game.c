@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 int hangman(){
     srand(time(NULL));
@@ -11,7 +12,8 @@ int hangman(){
         { "beach", "Sandy shore by the sea" },
     };
     int wordPick = rand()%4;
-    char wordGot[] = (char*)wordList[wordPick][0];
+    char wordGot[50];
+    strcpy(wordGot,wordList[wordPick][0]);
     int wordLength = sizeof(wordGot);
     int extrudeSizeMax = (1/2)*wordLength;
     int extrudeSizeMin = (2/5)*wordLength;
