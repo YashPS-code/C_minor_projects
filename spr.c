@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 int game(char ch){
     char str[3]={'s','p','r'};
+    srand(time(NULL));
     int compChoice = rand()%3;
     char result = str[compChoice];
     if(ch==result){
