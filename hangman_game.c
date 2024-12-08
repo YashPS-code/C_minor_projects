@@ -32,7 +32,6 @@ int hangman(){
 
 int main(){
     hangman();
-    hangman();
 
     return 0;
 }
