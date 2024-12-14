@@ -13,35 +13,37 @@ int hangman(char *ptr){
     };
     int wordPick = rand()%4;
     char *wordGot = wordList[wordPick][0];
-    int wordLength = strlen(wordGot);
+    const int wordLength = strlen(wordGot);
     int extrudeSizeMax = 0.5*wordLength;
     int extrudeSizeMin = 0.4*wordLength;
     int extrudeSize = rand()%(extrudeSizeMax-extrudeSizeMin+1)+extrudeSizeMin;
-    printf("%d\n",extrudeSize);
-    int extrudingArr[] ={};
+    int extrudingArr[10] = {};
     for(int i=0;i<extrudeSize;i++){
         int extrudePos= (rand()%wordLength);
         int flag= 1;
         for(int j=0;j<i;j++){
             if(extrudePos==extrudingArr[j]){
                 flag = 0;
+                break;
             }
         }
-        if(flag == 0 || extrudePos > wordLength){
+        if(flag == 0 ){
+            i--;
             continue;
         }else{
             extrudingArr[i]=extrudePos;
         }
     }
-    for(int i=0;i<extrudeSize;i++)
-    printf("%d\n",extrudingArr[i]);
 
-    for(int i=0;i<extrudeSize;i++){
-        //printf("%c",wordGot[extrudingArr[i]]);
-        wordGot[extrudingArr[i]]=' ';
+    char newString[50];
+
+    for(int i=0;i<wordLength;i++){
+        newString[i]=wordGot[i];
     }
-    //printf("%s",wordGot);
-    ptr =wordGot;
+    
+    for(int i=0;i<extrudeSize;i++){
+        newString[extrudingArr[i]]='_';
+    }
     return 0;
 }
 
@@ -49,7 +51,7 @@ int main(){
     char word[50];
     char *ptr = word;
     hangman(ptr);
-    //printf("%s",word);
+    printf("%s",word);
 
     return 0;
 }
