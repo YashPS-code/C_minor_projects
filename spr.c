@@ -16,6 +16,7 @@ int game(char ch){
         printf("User Wins\n");
     }else{
         printf("Invalid Input\n");
+        exit(0);
     }
     return 0;
 }
@@ -28,9 +29,6 @@ int main(){
     while(true){
         printf("Enter your Choice: ");
         scanf(" %c",&userChoice);
-        /*if(userChoice != 's' || userChoice !='p'|| userChoice != 'r'){
-            break;
-        }*/
         fptr(userChoice);
     }
     return 0;
