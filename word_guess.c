@@ -3,14 +3,9 @@
 #include <time.h>
 #include <string.h>
 
-#define MaxTry = 6;
+#define MaxTry 6
 
-struct store{
-        int num;
-        char chr;
-    };
-
-int hangman(char *word,char *hint, struct store *answerCharacter){
+int wordGenerator(char *word,char *hint,char *answerCharacter,int *answerPositions){
     srand(time(NULL));
     char *wordList[4][2] = {
         { "geeksforgeeks", "Computer coding" },
@@ -36,7 +31,6 @@ int hangman(char *word,char *hint, struct store *answerCharacter){
         }
         if(flag == 0 ){
             i--;
-            continue;
         }else{
             extrudingArr[i]=extrudePos;
         }
@@ -47,42 +41,49 @@ int hangman(char *word,char *hint, struct store *answerCharacter){
     for(int i=0;i<=wordLength;i++){
         newString[i]=wordGot[i];
     }
+    int numExtrudes=0;
 
     for(int i=0;i<extrudeSize;i++){
-        answerCharacter->num = extrudingArr[i];
-        answerCharacter->chr = newString[extrudingArr[i]];
+        answerCharacter[i] = newString[extrudingArr[i]];
+        answerPositions[i] = extrudingArr[i];
+        numExtrudes++;
         newString[extrudingArr[i]]='_';
     }
 
-    strcpy(word,newString);
     strcpy(hint,wordList[wordPick][1]);
-    return 0;
-}
+    strcpy(word,newString);
 
-int inputCheck(char *work, int *pass)
+    return numExtrudes;
+}
 
 int main(){
-    char word[50];
-    char hint[50],userInp;
-    int *passStage, userTry = 1;
-    struct store* answerCharacter;
-    hangman(word,hint,answerCharacter);
+    char word[50], hint[50], answerCharacter[20], userInp;
+    int answerPos[50];
+    int userTry = 1, replacedCount=0;;
+    int numberOfExtrudes = wordGenerator(word, hint, answerCharacter, answerPos);
     while(userTry<MaxTry){
-        printf("%s\t\t\t%s",word,hint);
+        printf("%s\t\t\t%s \nEnter your guess of character: ",word,hint);
         scanf(" %c",&userInp);
-        inputCheck(word,passStage,userInp,/*extrude array*/);
-        if(passStage==0){
-            userTry++;
-            if(userTry==MaxTry){
-                printf("All tries Exhausted.");
-                break;
+        int flag = 0;
+        for(int i=0; i<sizeof(answerCharacter);i++){
+            if(answerCharacter[i]==userInp){
+                word[answerPos[i]]=answerCharacter[i];
+                replacedCount++;
+                flag=1;
             }
         }
-
+        if(flag==0){
+            userTry++;
+            printf("%d",userTry);
+        }
+        if(userTry==MaxTry){
+            printf("All tries Exhausted.");
+            break;
+        }
+        if(replacedCount==numberOfExtrudes){
+            printf("Word Guessed! Well Played");
+            break;
+        }
     }
     return 0;
-}
-
-int inputCheck(char *word, int *pass, char userInp, /*Another ...*/){
-    
 }
