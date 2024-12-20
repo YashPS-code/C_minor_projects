@@ -1,3 +1,5 @@
+//mention the number of players along side the command line call to the program. i.e. execute on the terminal (for Windows) "./a.exe {some_integer_value<5}"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,6 +15,12 @@ struct snake{       //structure to define positions of snake
 };
 
 void main(int argc, char **argv){
+    
+    if(argc!=2 || atoi(argv[1])>4){
+        exit(1);
+    }
+
+    int players = atoi(argv[1]);
 
     srand(time(NULL));
     int diceNum = (rand()%5)+1;
@@ -43,10 +51,6 @@ void main(int argc, char **argv){
         {67,89},
         {86,97}
     };
-
-    int players = 0;
-    printf("How many players are playing? ");
-    scanf("%d",&players);
 
     int board[10][10]={
         {100,99,98,97,96,95,94,93,92,91},
