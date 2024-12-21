@@ -8,6 +8,7 @@ int game(char ch){
     srand(time(NULL));
     int compChoice = rand()%3;
     char result = str[compChoice];
+    printf("Computer choice is %c\n",str[compChoice]);
     if(ch==result){
         printf("tie\n");
     }else if(ch=='s' && result=='p' || ch=='p' && result=='r' || ch=='r' && result=='s'){

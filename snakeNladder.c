@@ -1,8 +1,10 @@
-//mention the number of players along side the command line call to the program. i.e. execute on the terminal (for Windows) "./a.exe {some_integer_value<5}"
+/* mention the number of players along side the command line call to the program.
+i.e. execute on the terminal (for Windows) "./a.exe {some_integer_value<5}" */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 struct ladder{      //structure to define ladders in the board
     int start;
@@ -14,16 +16,31 @@ struct snake{       //structure to define positions of snake
     int end;
 };
 
+int diceRoll(int **playerPosition,int refPlayer,char **playerSymbols);
+
 void main(int argc, char **argv){
     
     if(argc!=2 || atoi(argv[1])>4){
+        printf("Too few arguments at the command line or too many players");
         exit(1);
     }
 
-    int players = atoi(argv[1]);
+    int playersNo = atoi(argv[1]);
+    char *players[4];
 
-    srand(time(NULL));
-    int diceNum = (rand()%5)+1;
+    for(int i=0;i<playersNo;i++){       //player selection of their prefered symbol to play
+
+        printf("Select player symbol for player %d ",i+1);
+        scanf(" %c",&players[i]);
+
+        for(int j=0;j<i;j++){
+            if(players[j]==players[i]){
+                printf("Symbol already taken...enter another symbol");
+                i--;
+                break;
+            }
+        }
+    }
     
     struct ladder Ladders[] ={
         {2,23},
@@ -65,11 +82,31 @@ void main(int argc, char **argv){
         {1,2,3,4,5,6,7,8,9,10}
         };
 
-    for(int i=0;i <10; i++){      //looping through numbers of Snake & Ladder board
-        for(int j=0; j<10; j++){
-            printf("%3d    ",board[i][j]);
-        }
-        printf("\n");
-    }
+    int *playerPos[playersNo];   //array pointer to refer to the position of each player
+    char defaultChar = ' ';
+    int playingPlayer = 0;      //reference of the player having dice turn
 
+    while(true){
+        for(int i=0;i <10; i++){      //looping through numbers of Snake & Ladder board
+            for(int j=0; j<10; j++){
+                printf("%3d%s%s%s%s",board[i][j],defaultChar,defaultChar,defaultChar,defaultChar);
+            }
+        printf("\n");
+        }
+        int positionAdder = diceRoll(playerPos,playingPlayer,players);
+        int refPlayer = (refPlayer+1)%4;
+    }
+}
+
+int diceRoll(int **playerPosition,int refPlayer,char **playerSymbols){
+    char *ran;
+    printf("player symbol %c has the dice... Press Enter to roll",playerSymbols[refPlayer]);
+    gets(ran);
+
+    srand(time(NULL));
+    int diceNum = (rand()%5)+1;   //dice
+
+    printf("Dice: %d",diceNum);
+
+    return diceNum;
 }

@@ -3,16 +3,19 @@
 #include <time.h>
 #include <string.h>
 
-#define MaxTry 6
+#define MaxTry 3
 
 int wordGenerator(char *word,char *hint,char *answerCharacter,int *answerPositions){
+
     srand(time(NULL));
     char *wordList[4][2] = {
-        { "geeksforgeeks", "Computer coding" },
+        { "organisation", "the activity of making preparations" },
         { "elephant", "A large mammal with a trunk" },
         { "pizza", "A popular Italian dish" },
         { "beach", "Sandy shore by the sea" },
+        //add more words and hints here
     };
+
     int wordPick = rand()%4;
     char *wordGot = wordList[wordPick][0];
     const int wordLength = strlen(wordGot);
@@ -20,6 +23,7 @@ int wordGenerator(char *word,char *hint,char *answerCharacter,int *answerPositio
     int extrudeSizeMin = 0.5*wordLength;
     int extrudeSize = rand()%(extrudeSizeMax-extrudeSizeMin+1)+extrudeSizeMin;
     int extrudingArr[10] = {};
+
     for(int i=0;i<extrudeSize;i++){
         int extrudePos= (rand()%wordLength);
         int flag= 1;
@@ -61,6 +65,7 @@ int main(){
     int answerPos[50];
     int userTry = 1, replacedCount=0;;
     int numberOfExtrudes = wordGenerator(word, hint, answerCharacter, answerPos);
+    
     while(userTry<MaxTry){
         printf("%s\t\t\t%s \nEnter your guess of character: ",word,hint);
         scanf(" %c",&userInp);
