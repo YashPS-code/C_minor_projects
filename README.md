@@ -1,6 +1,6 @@
-#Description to the programs in this repository
+# Description to the programs in this repository
 
-###Program 1
+### Program 1
 spr.c is computerised version of the traditional game of stone paper scissors played in person with friends. But here you play against the computer. The user response is taken through the terminal once the program.
 
 General Rules of playing are:
@@ -16,7 +16,7 @@ General Rules of playing are:
 
 <b>Note</b> that any other input rather than s, p and r will result in the termination of the program
 
-###Program 2
+### Program 2
 word_guess.c is a program to play the game of word guessing.
 
 How to play
@@ -27,7 +27,7 @@ How to play
 <li>If the user's guess occurs in the work it would be displayed as filled letter in the missing spaces</li>
 </ol>
 
-###Program 3
+### Program 3
 snakeNladder.c is the traditional game of Snakes and Ladders in the computerised form.Playing Instructions:
 <ol>
 <li> Maximum of 4 players can play the game</li>
