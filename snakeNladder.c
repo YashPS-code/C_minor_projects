@@ -16,7 +16,7 @@ struct snake{       //structure to define positions of snake
     int end;
 };
 
-int diceRoll(int **playerPosition,int refPlayer,char **playerSymbols);
+int diceRoll(int refPlayer,char *playerSymbols);
 
 void main(int argc, char **argv){
     
@@ -26,7 +26,7 @@ void main(int argc, char **argv){
     }
 
     int playersNo = atoi(argv[1]);
-    char *players[4];
+    char players[4];
 
     for(int i=0;i<playersNo;i++){       //player selection of their prefered symbol to play
 
@@ -82,31 +82,36 @@ void main(int argc, char **argv){
         {1,2,3,4,5,6,7,8,9,10}
         };
 
-    int *playerPos[playersNo];   //array pointer to refer to the position of each player
-    char defaultChar = ' ';
+    int playerPos[4];   //array to refer to the position of each player
+        
     int playingPlayer = 0;      //reference of the player having dice turn
 
     while(true){
         for(int i=0;i <10; i++){      //looping through numbers of Snake & Ladder board
             for(int j=0; j<10; j++){
-                printf("%3d%s%s%s%s",board[i][j],defaultChar,defaultChar,defaultChar,defaultChar);
+                char defaultChar[4] = {' ',' ',' ',' '};
+                if(playerPos[playingPlayer]==(100-10*i-j)){
+                    defaultChar[playingPlayer]=players[playingPlayer];
+                }
+                printf("%3d%c%c%c%c",board[i][j],defaultChar[0],defaultChar[1],defaultChar[2],defaultChar[3]);
             }
         printf("\n");
         }
-        int positionAdder = diceRoll(playerPos,playingPlayer,players);
-        int refPlayer = (refPlayer+1)%4;
+
+        int diceNum = diceRoll(playingPlayer,players);
+        playerPos[playingPlayer] = playerPos[playingPlayer] + diceNum;
+        playingPlayer = (playingPlayer+1)%playersNo;
     }
 }
 
-int diceRoll(int **playerPosition,int refPlayer,char **playerSymbols){
-    char *ran;
-    printf("player symbol %c has the dice... Press Enter to roll",playerSymbols[refPlayer]);
-    gets(ran);
-
+int diceRoll(int refPlayer,char *playerSymbols){
     srand(time(NULL));
-    int diceNum = (rand()%5)+1;   //dice
+    
+    printf("player symbol %c has the dice... Press Enter to roll\n",playerSymbols[refPlayer]);
+    getchar();
+    //system("cls");
 
-    printf("Dice: %d",diceNum);
-
+    int diceNum = (rand()%6)+1;   //dice
+    printf("Dice: %d\n",diceNum);
     return diceNum;
 }
